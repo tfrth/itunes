@@ -1,8 +1,8 @@
-var app = angular.module('itunes');
+var app = angular.module('itunes'); //just making sure this page is assigned to 'itunes' app
 
-app.service('itunesService', function($http){
+app.service('itunesService', function($http){ //creates new service 'itunesService' and function with the $http passed in 
   //This service is what will do the 'heavy lifting' and get our data from the iTunes API.
-  //Also not that we're using a 'service' and not a 'factory' so all your method you want to call in your controller need to be on 'this'.
+  //Also note that we're using a 'service' and not a 'factory' so all your method you want to call in your controller need to be on 'this'.
 
   //Write a method that accepts an artist's name as the parameter, then makes a 'JSONP' http request to a url that looks like this
   //https://itunes.apple.com/search?term=' + artist + '&callback=JSON_CALLBACK'
@@ -13,16 +13,16 @@ app.service('itunesService', function($http){
 
 // var deferred = $q.defer();
 
-this.getArtist = function(artist) {
+this.getArtist = function(artist) {   //use this.getArtist because we are using service (like constructor function). creates getArtist function which takes a parameter of artist
 	
-	return $http({
+	return $http({        //simply returning the $http with the following method and url. in this case JSONP and url ......
 		method: 'JSONP',
 		url: 'https://itunes.apple.com/search?term=' + artist + '&callback=JSON_CALLBACK',
-	})
+	}) //closes the return $http function 
 
-}
+} //closes the getArtist function
 
-});
+});  //closes the entire service
 
 
 

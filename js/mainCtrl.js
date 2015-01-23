@@ -1,10 +1,10 @@
 var app = angular.module('itunes');
 
-app.controller('mainCtrl', function($scope, itunesService){
+app.controller('mainCtrl', function($scope, itunesService){ //itunesService injected into the controller 
   //This is setting up the default behavior of our ng-grid. The important thing to note is
   //the 'data' property. The value is 'songData'. That means ng-grid is looking for songData on $scope and is putting whatever songData is into the grid.
   //this means when you make your iTunes request, you'll need to get back the information, parse it accordingly, then set it to songData on the scope -> $scope.songData = ...
-  $scope.gridOptions = { 
+  $scope.gridOptions = {   //still a litlte confused what this is and how to manipulate
       data: 'songData',
       height: '110px',
       sortInfo: {fields: ['Song', 'Artist', 'Collection', 'Type'], directions: ['asc']},
@@ -38,16 +38,16 @@ app.controller('mainCtrl', function($scope, itunesService){
   //*remember, that method should be expecting an artist name. The artist name is coming from the input box on index.html, head over there and check if that input box is tied to any specific model we could use.
   //Also note that that method should be retuning a promise, so you could use .then in this function.
     
-$scope.getSongData = function() {
-  itunesService.getArtist($scope.artist).then(function(data) {
-    $scope.songData = data;
-    var results = data.data.results;
+$scope.getSongData = function() {   //new function getSongData now on the scope
+  itunesService.getArtist($scope.artist).then(function(data) { //runs the getArtist function on the itunesService factory with the '$scope.artist' (entered in by the user in the view. Goes into effect when the user clicks "search"). the .then means to wait for the promise to return with the data and then moves onto the rest of the function!
+    $scope.songData = data;           //this sets the songData to the data returned from the $http return in the service
+    var results = data.data.results;  //creats new var results and it the information 2 levels deep into "data" (i.e. data.data.results). find this information in the object when logged in console 
     //$scope.artist = "";
  
- var newArr = [];
+ var newArr = [];  //create newArr that is an empty array. 
   
- for (var i = 0; i < results.length; i++) {
-    var artistObj = {
+ for (var i = 0; i < results.length; i++) {  //starts for loop to loop through "results". the results are tied to the artist name entered in the view. the artist name is added to the return $http to get the data on that specific artist 
+    var artistObj = {  //creates new object to assign the desired keys in results. 
         AlbumArt: results[i].artworkUrl100,
         Artist: results[i].artistName,
         Collection: results[i].collectionName,
@@ -55,9 +55,9 @@ $scope.getSongData = function() {
         Play: results[i].previewUrl,
         Type: results[i].kind
     };
-  newArr.push(artistObj);
+  newArr.push(artistObj);  //the object created is pushed into newArr which was up until now empty 
     }
-$scope.songData = newArr;
+$scope.songData = newArr;  // songData is 
   })
   };
 });
